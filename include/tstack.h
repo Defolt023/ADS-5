@@ -27,4 +27,4 @@ class TStack {
   arr[++top] = item;
   }
 };
-#endif
+#endif line should be "#endif  // INCLUDE_TSTACK_H_"
