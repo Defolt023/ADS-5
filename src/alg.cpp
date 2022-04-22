@@ -82,8 +82,6 @@ std::string infx2pstfx(std::string inf) {
   }
   return peremen;
 }
-  return std::string("");
-}
 
 int eval(std::string pref) {
   int resultat = 0;
