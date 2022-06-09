@@ -3,8 +3,7 @@
 #include <map>
 #include "tstack.h"
 
-std::string infx2pstfx(std::string inf) {
-  int pr(char p) {
+int pr(char p) {
   if (p == '(') {
   return 0;
   } else if (p == ')') {
@@ -15,7 +14,7 @@ std::string infx2pstfx(std::string inf) {
   return 2;
   } else if (p == '/') {
   return 3;
-  } else if (p == '') {
+  } else if (p == '*') {
   return 3;
   } else if (p == ' ') {
   return 4;
@@ -29,7 +28,7 @@ int vichisl(char c, int op1, int op2) {
   return (op2 + op1);
   } else if (c == '-') {
   return (op2 - op1);
-  } else if (c == '') {
+  } else if (c == '*') {
   return (op2 * op1);
   } else if ((c == '/') && (op1 != 0)) {
   return (op2 / op1);
@@ -37,7 +36,6 @@ int vichisl(char c, int op1, int op2) {
   return 0;
   }
 }
-
 std::string infx2pstfx(std::string inf) {
   std::string peremen;
   TStack <char, 100> TT;
@@ -100,4 +98,4 @@ int eval(std::string pref) {
   }
   resultat = SS.get();
   return resultat;
-}
+}   
