@@ -4,7 +4,6 @@
 #include <iostream>
 #include "tstack.h"
 
-
 int operationss(char pr) {
     switch (pr) {
     case '(':
