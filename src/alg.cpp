@@ -1,10 +1,11 @@
+// Copyright 2021 NNTU-CS
 #include <string>
 #include <map>
 #include <iostream>
 #include "tstack.h"
 
 
-int operationn(char pr) {
+int operattion(char pr) {
     switch (pr) {
     case '(':
       return 0;
@@ -22,7 +23,7 @@ int operationn(char pr) {
         return -1;
     }
 }
-int calculattor(char k, int x, int y) {
+int calculaator(char k, int x, int y) {
     switch (k) {
     case '+':
         return x + y;
@@ -44,24 +45,24 @@ std::string infx2pstfx(std::string inf) {
   TStack <char, 100> st1;
   std::string st;
   for (size_t i = 0; i < inf.size(); i++) {
-    if ((operationn(inf[i]) == -1) && (operationn(inf[i]) != 1)) {
-      if (!st.empty() && operationn(inf[i - 1]) != -1) {
+    if ((operattion(inf[i]) == -1) && (operattion(inf[i]) != 1)) {
+      if (!st.empty() && operat(inf[i - 1]) != -1) {
         st.push_back(' ');
       }
       st.push_back(inf[i]);
-    } else if ((operationn(inf[i]) > operationn(st1.get()))
-               || (st1.isEmpty()) || (operationn(inf[i]) == 0)) {
+    } else if ((operattion(inf[i]) > operattion(st1.get()))
+               || (st1.isEmpty()) || (operattion(inf[i]) == 0)) {
       st1.push(inf[i]);
     } else {
-      if (operationn(inf[i]) == 1) {
-        while (operationn(st1.get()) != 0) {
+      if (operattion(inf[i]) == 1) {
+        while (operattion(st1.get()) != 0) {
           st.push_back(' ');
           st.push_back(st1.get());
           st1.pop();
         }
         st1.pop();
       } else {
-        while (operationn(st1.get()) >= operationn(inf[i])) {
+        while (operattion(st1.get()) >= operattion(inf[i])) {
           st.push_back(' ');
           st.push_back(st1.get());
           st1.pop();
@@ -72,7 +73,7 @@ std::string infx2pstfx(std::string inf) {
   }
   while (!st1.isEmpty()) {
     st.push_back(' ');
-    if (operationn(st1.get()) != 0) {
+    if (operattion(st1.get()) != 0) {
       st.push_back(st1.get());
     }
     st1.pop();
@@ -86,14 +87,14 @@ int eval(std::string postov) {
     int x = 0;
     int y = 0;
 for (int i = 0; i < postov.length(); i++) {
-        if ((operationn(postov[i]) == -1) && postov[i] != ' ') {
+        if ((operattion(postov[i]) == -1) && postov[i] != ' ') {
             st2.push(postov[i] - '0');
-        } else if (operationn(postov[i]) > 1) {
+        } else if (operattion(postov[i]) > 1) {
             y = st2.get();
             st2.pop();
             x = st2.get();
             st2.pop();
-            st2.push(calculattor(postov[i], x, y));
+            st2.push(calculaator(postov[i], x, y));
         }
     }
     z = st2.get();
