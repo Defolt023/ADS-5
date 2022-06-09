@@ -3,7 +3,7 @@
 #include <map>
 #include "tstack.h"
 std::string infx2pstfx(std::string inf) {
-  std::string s = "";
+  std::string strrr = "";
   TStack<char, 100> Stack;
   std::map<char, int> Prior;
   Prior['('] = 0;
@@ -14,13 +14,13 @@ std::string infx2pstfx(std::string inf) {
   Prior['/'] = 2;
   for (int i = 0; i < inf.size(); i++) {
   if (Prior.find(inf[i]) == Prior.end()) {
-  s += inf[i];
-  s += ' ';
+  strrr += inf[i];
+  strrr += ' ';
   } else {
   if (inf[i] == ')') {
   while (Stack.get() != '(') {
-  s += Stack.get();
-  s += ' ';
+  strrrv += Stack.get();
+  strrr += ' ';
   Stack.pop();
   }
   Stack.pop();
@@ -33,8 +33,8 @@ std::string infx2pstfx(std::string inf) {
   } else {
   while (Prior[inf[i]] <= Prior[Stack.get()]) {
   if (!Stack.Empty()) {
-  s += Stack.get();
-  s += ' ';
+  strrr += Stack.get();
+  strrr += ' ';
   Stack.pop();
   }
   }
@@ -45,12 +45,12 @@ std::string infx2pstfx(std::string inf) {
   }
   }
   while (!Stack.Empty()) {
-  s += Stack.get();
-  s += ' ';
+  strrr += Stack.get();
+  strrr += ' ';
   Stack.pop();
   }
-  s.pop_back();
-  return s;
+  strrr.pop_back();
+  return strrr;
 }
 int eval(std::string pref) {
   TStack<int, 100> Stack;
