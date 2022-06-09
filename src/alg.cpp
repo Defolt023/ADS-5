@@ -2,100 +2,86 @@
 #include <string>
 #include <map>
 #include "tstack.h"
-
-int pr(char p) {
-  if (p == '(') {
-  return 0;
-  } else if (p == ')') {
-  return 1;
-  } else if (p == '-') {
-  return 2;
-  } else if (p == '+') {
-  return 2;
-  } else if (p == '/') {
-  return 3;
-  } else if (p == '*') {
-  return 3;
-  } else if (p == ' ') {
-  return 4;
-  } else {
-  return -2;
-  }
-}
-
-int vichisl(char c, int op1, int op2) {
-  if (c == '+') {
-  return (op2 + op1);
-  } else if (c == '-') {
-  return (op2 - op1);
-  } else if (c == '*') {
-  return (op2 * op1);
-  } else if ((c == '/') && (op1 != 0)) {
-  return (op2 / op1);
-  } else {
-  return 0;
-  }
-}
 std::string infx2pstfx(std::string inf) {
-  std::string peremen;
-  TStack <char, 100> TT;
-  int j = 0;
-  for (int j = 0; j < inf.size(); j++) {
-  if (pr(inf[j]) == -2) {
-  peremen.push_back(inf[j]);
-  peremen.push_back(' ');
+  std::string s = "";
+  TStack<char, 100> Stack;
+  std::map<char, int> Prior;
+  Prior['('] = 0;
+  Prior[')'] = 0;
+  Prior['+'] = 1;
+  Prior['-'] = 1;
+  Prior['*'] = 2;
+  Prior['/'] = 2;
+  for (int i = 0; i < inf.size(); i++) {
+  if (Prior.find(inf[i]) == Prior.end()) {
+  s += inf[i];
+  s += ' ';
   } else {
-  if (pr(inf[j]) == 0) {
-  TT.push(inf[j]);
-  } else if (TT.isEmpty()) {
-  TT.push(inf[j]);
-  } else if ((pr(inf[j]) > pr(TT.get()))) {
-  TT.push(inf[j]);
-  } else if (pr(inf[j]) == 1) {
-  while (pr(TT.get()) != 0) {
-  peremen.push_back(TT.get());
-  peremen.push_back(' ');
-  TT.pop();
+  if (inf[i] == ')') {
+  while (Stack.get() != '(') {
+  s += Stack.get();
+  s += ' ';
+  Stack.pop();
   }
-  TT.pop();
+  Stack.pop();
   } else {
-  while (!TT.isEmpty() && pr(inf[j]) <= pr(TT.get())) {
-  peremen.push_back(TT.get());
-  peremen.push_back(' ');
-  TT.pop();
+  if (inf[i] == '(' || Stack.Empty()) {
+  Stack.push(inf[i]);
+  } else {
+  if (Prior[inf[i]] > Prior[Stack.get()]) {
+  Stack.push(inf[i]);
+  } else {
+  while (Prior[inf[i]] <= Prior[Stack.get()]) {
+  if (!Stack.Empty()) {
+  s += Stack.get();
+  s += ' ';
+  Stack.pop();
   }
-  TT.push(inf[j]);
+  }
+  Stack.push(inf[i]);
   }
   }
   }
-  while (!TT.isEmpty()) {
-  peremen.push_back(TT.get());
-  peremen.push_back(' ');
-  TT.pop();
   }
-  int i = 0;
-  for (int i = 0; i < peremen.size(); i++) {
-  if (peremen[peremen.size() - 1] == ' ')
-  peremen.erase(peremen.size() - 1);
   }
-  return peremen;
+  while (!Stack.Empty()) {
+  s += Stack.get();
+  s += ' ';
+  Stack.pop();
+  }
+  s.pop_back();
+  return s;
 }
-
 int eval(std::string pref) {
-  int resultat = 0;
-  TStack <int, 100> SS;
-  int k = 0;
-  for (int k = 0; k < pref.size(); k++) {
-  if (pr(pref[k]) == -2) {
-  SS.push(pref[k] - '0');
-  } else if (pr(pref[k]) < 4) {
-  int b = SS.get();
-  SS.pop();
-  int a = SS.get();
-  SS.pop();
-  SS.push(vichisl(pref[k], b, a));
+  TStack<int, 100> Stack;
+  int val1, val2, result, i = 0;
+  while (i < pref.size()) {
+  if (pref[i] >= '0') {
+  Stack.push(pref[i] - '0');
+  } else {
+  if (pref[i] != ' ') {
+  val2 = Stack.get();
+  Stack.pop();
+  val1 = Stack.get();
+  Stack.pop();
+  switch (pref[i]) {
+  case '+':
+  result = val1 + val2;
+  break;
+  case '-':
+  result = val1 - val2;
+  break;
+  case '*':
+  result = val1 * val2;
+  break;
+  case '/':
+  result = val1 / val2;
+  break;
+  }
+  Stack.push(result);
   }
   }
-  resultat = SS.get();
-  return resultat;
-}   
+  i++;
+  }
+  return Stack.get();
+}
