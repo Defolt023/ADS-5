@@ -3,8 +3,7 @@
 #define INCLUDE_TSTACK_H_
 
 template<typename T, int size>
-class TStack {
- private:
+private:
   T arr[100];
   int top;
  public:
@@ -26,5 +25,5 @@ class TStack {
   if (top < size-1)
   arr[++top] = item;
   }
-};
+};   
 #endif  // INCLUDE_TSTACK_H_
